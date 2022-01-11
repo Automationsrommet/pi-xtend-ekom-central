@@ -1,35 +1,18 @@
-Først logger vi inn på vår pi-xtend med dafault brukernavn pi og passord raspberry.
-
+Først logger vi inn på vår pi-xtend med default brukernavn pi og passord raspberry.
 Kjør kommandoen pinout fordi den er stilig.
-
 Bruk laptopen din til å lage et wifi-hotspot for at pi-xtend kan få internett. Instilinger – Nettverk og internett – mobil trådløssone.
-
 Sett opp et nettverk med SSID og passord som pi-xtend kan logge på.
-
 Kjør kommandoen sudo raspi-config på pi-xtend. Her skal vi legge inn SSID og passord så pi-xtend finner nettet og får internettilgang.
-
 Mens vi er der skal vi også skru på ISP under Interface-menyen sånn at vi får kontakt med mikrokontrolleren.
-
 Trykk så finish og du kommer tilbake på kommandolinja.
-
  
-
 Vi restarter pi-xtend med sudo reboot now.
-
 Når vi logger inn igjen med brukernavn og passord har vi forhåpentligvis internett.
-
 Vi tester det med en sudo apt update.
-
 Hvis det fungerer, fortsetter vi med sudo apt-get install libncurses5-dev libncursesw5-dev
-
 Deretter gjelder det å få klonet pxdev fra github. Prøv git clone https://github.com/gorootde/pxdev.git
-
 Hvis det virket greit, navigerer vi til mappa pxdev. Vi bruker dir og ls og cd .. og cd “den mappa vi vil inn i”
-
 Vi går til pxdev – PiXtend_V1 – pixtendtool og kjører her bash makepixtendtool go .
-
 Hvis det virket har det dukket opp en ny kjørbar fil i mappa. Vi kjører ./pixtendtool og får opp instruksjonene til biblioteket.
-
 Så tar vi pxauto; vi går til pxdev – PiXtend_V1 – pxauto og kjører her bash makepxauto go og siden ./pxauto
-
 Er vi heldige kan vi nå bruke piltastene og starte releutgangene på pi-xtend. Vi er i mål.
