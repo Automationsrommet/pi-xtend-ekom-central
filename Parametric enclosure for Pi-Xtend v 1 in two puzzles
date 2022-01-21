@@ -1,0 +1,122 @@
+//Ekom-sentral-boks-kode
+
+//Inngangs-verdier
+lengde_boks=234;  //mm Mål og få dette tallet rett.
+bredde_boks=110;
+hoyde_boks=62;
+tykkelse_boks=5;
+avrunding=4;    //mm bøyeradius
+justering=12;
+
+tekst_1="Ekom-sentral";
+tekst_2="Pi-Xtend v1.3 med Raspberry Pi Zero W";
+$fn=12;
+brikke=2;
+brikkene=[[[0,6,19,20,7,8,21,22,9,1,2,3,10,11,18,17,12,13,16,15,14]],[[0,6,19,20,7,8,21,22,9,1,5,4,10,11,18,17,12,13,16,15,14]]];
+
+
+    
+opning_1_lengde=35;
+opning_1_innhogg=15;
+opning_1_plassering=40;
+opning_1_snu=0;
+
+opning_2_lengde=60;
+opning_2_innhogg=25;
+opning_2_plassering=120;
+opning_2_snu=0;
+
+opning_3_lengde=60;
+opning_3_innhogg=25;
+opning_3_plassering=lengde_boks/5*4;
+opning_3_snu=0;
+
+opning_4_lengde=40;
+opning_4_innhogg=25;
+opning_4_plassering=30;
+opning_4_snu=1;
+
+opning_5_lengde=35;
+opning_5_innhogg=25;
+opning_5_plassering=85;
+opning_5_snu=1;
+
+opning_6_lengde=26;
+opning_6_innhogg=18;
+opning_6_plassering=145;
+opning_6_snu=1;
+
+
+//Her er modulene
+module puslespill(b){
+   translate([0,0,-90]) color("orange")
+    linear_extrude(180)
+    polygon(points=[
+    //punkter
+    [10,0],[10,-90],[-170,-90],[-170,90],[170,120],[170,-90],[10,-60],[-10,-60],[-10,-30],[10,-30],[10,120],[10,60],[-10,60],[-10,30],[10,30],[5,35],[-5,25],[-5,65],[5,55],[5,-55],[-5,-65],[-5,-25],[5,-35]],
+    //rekkefølge på punktene
+    paths=brikkene[brikke-1]);
+}
+module boks(l,b,h,t,r){   //Lengde,bredde,høyde og avrundings-bøyeradius.
+difference(){
+minkowski(){
+    sphere(r);
+    cube([l-2*r+2*t,b-2*r+2*t,h-3*r+2*t],center=true);
+}
+minkowski(){
+    sphere(r);
+    cube([l-2*r,b-2*r,h-2*r],center=true);
+}
+}}
+
+module opning(l,i,p,s,r){
+    rotate([0,0,s*180])
+ translate([-lengde_boks/2+p,-bredde_boks/2,hoyde_boks/3])
+    minkowski(){
+    sphere(r);
+    cube([l-2*r,i*2-2*r,i*2-2*r],center=true);
+}   
+}
+
+module fester(){
+    for(i=[-1:2:1]){
+        for(j=[-1:2:1]){
+    translate([(-lengde_boks/2+hoyde_boks/3)*i,(-bredde_boks/2-hoyde_boks/5)*j,-hoyde_boks/2+tykkelse_boks/2])
+    difference(){
+    minkowski(){cylinder(tykkelse_boks,avrunding,avrunding,center=true);cube([hoyde_boks/2,hoyde_boks/4,tykkelse_boks],center=true);
+    }
+    cylinder(3*tykkelse_boks,tykkelse_boks/4,tykkelse_boks,center=true);
+}
+}}}
+module tekst(){
+    translate([-lengde_boks/3,-bredde_boks/9+justering,hoyde_boks/2+tykkelse_boks/4+0.8])linear_extrude(2)text(tekst_1,15);
+    translate([-lengde_boks/3,-bredde_boks/5+justering,hoyde_boks/2+tykkelse_boks/4+0.8])linear_extrude(2)text(tekst_2,5);
+}
+
+
+//Her kalles modulene for å lage objektet.
+
+
+difference(){
+intersection(){
+translate([0,justering,0])
+    union(){
+color("orange")fester();
+color("orange")
+difference(){
+boks(lengde_boks,bredde_boks,hoyde_boks,tykkelse_boks,avrunding);
+opning(opning_1_lengde,opning_1_innhogg,opning_1_plassering,opning_1_snu,avrunding);
+    opning(opning_2_lengde,opning_2_innhogg,opning_2_plassering,opning_2_snu,avrunding);
+    opning(opning_3_lengde,opning_3_innhogg,opning_3_plassering,opning_3_snu,avrunding);
+    opning(opning_4_lengde,opning_4_innhogg,opning_4_plassering,opning_4_snu,avrunding);
+    opning(opning_5_lengde,opning_5_innhogg,opning_5_plassering,opning_5_snu,avrunding);
+    opning(opning_6_lengde,opning_6_innhogg,opning_6_plassering,opning_6_snu,avrunding);
+}
+
+}
+puslespill(brikkene[brikke-1]);
+}
+for (o=[-hoyde_boks/2-tykkelse_boks/4:hoyde_boks+tykkelse_boks/2:hoyde_boks/2+tykkelse_boks/4])
+translate([0,justering,o])rotate([90,0,0])cylinder(bredde_boks+2*tykkelse_boks+1,1.0,1.0,center=true);
+color("orange")tekst();
+}
