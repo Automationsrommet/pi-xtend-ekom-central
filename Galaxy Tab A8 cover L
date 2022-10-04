@@ -1,0 +1,122 @@
+length=130+116;
+width=162;
+camdia=15;
+heigth=8.5;
+camheigth=2;
+corner=4;
+camplace=18;
+rim=1;
+cutout=20;
+$fn=50;
+
+puslekurve=2.6;
+puslekurvemindre=2.35;
+skalering=3;
+radius=5;
+sporvidde=4;
+sporkant =1.5;
+boksvegg=3;
+huller=5;
+lengder=[300,45,20,50,250];
+bredder=[0,0,-80,80,10];
+hoyde=30;
+intersection(){
+difference(){
+    
+minkowski(){
+minkowski(){
+    
+cube( [length-corner*4+rim*8,width-corner*4+rim*8,heigth-2+rim*2],center=true);
+    cylinder (2,corner*2,corner*2,center=true);
+    
+}
+sphere(rim*3);
+
+}
+
+color("red")union(){
+minkowski(){
+minkowski(){
+    
+cube( [length-corner*2-rim*2,width-corner*2-rim*2,heigth-2-rim*2],center=true);
+    cylinder (2,corner,corner,center=true);
+    
+}
+sphere(rim);
+
+}
+minkowski(){
+    
+translate([0,0,4])cube( [length-corner*2-rim*3,width-corner*2-rim*3,heigth+2-rim*2],center=true);
+    cylinder (2,corner,corner,center=true);
+    
+}
+translate([-length/2+camplace,width/2-camplace,-heigth/2-camheigth/2])cylinder(camheigth+4,camdia/2,camdia/2,center=true);
+}
+for (i=[-1:2:1]){
+    for (j=[-1:2:1]){
+translate([i*length/2+i*cutout-1*i,0,0])sphere(cutout);
+        translate([i*length/2+i*cutout-2*i,j*width/6+j*cutout-2*j,0])sphere(cutout);
+        translate([-length/2+51,width/2+cutout-1.2,0])sphere(cutout);
+        translate([-length/2+67+6,width/2+cutout-1.4,0])sphere(cutout);
+        translate([-length/2+67+6+7,width/2+cutout-1.4,0])sphere(cutout);
+        translate([18,width/2+cutout-0.4,0])sphere(cutout);
+         translate([0,width/2-10,heigth/2+cutout-1])sphere(cutout);
+        translate([-length/2-cutout+12,width/2-4,0])sphere(cutout-10);
+    }
+    }
+}
+rotate([0,0,90])translate ([-102,0, 0])
+//Venstre
+union(){
+difference(){
+union(){
+//translate ([127.5,0, 0])cube([85,170,14],center=true);
+//translate ([42.5,-40.5, 0])cube([84,89,14],center=true);
+translate ([37.5*skalering,44.5*skalering, 0])cube([94*skalering,80.0*skalering,hoyde],center=true);
+
+rotate([0,0,90]){
+    difference(){
+for (p=[-50: 32:0]){
+    for (r=[-7.5:5:7.5]){
+    translate ([7.6*skalering,p*skalering, 0])
+        translate ([-10.1*skalering,r*skalering, 0])
+    cylinder(hoyde, 2.5*skalering,2.5*skalering,center=true);
+        translate ([1.4*skalering,p*skalering, 0])cube([12.8*skalering,15.0*skalering,hoyde], center=true);
+    }
+}
+
+for (o=[-50: 32: 0]){
+     for (q=[-7.5:15:7.5]){
+    translate ([2.4*skalering,o*skalering, 0])
+   translate ([-0.1*skalering,q*skalering, 0])
+    cylinder(hoyde, 2.5*skalering,2.5*skalering,center=true);
+    }  
+}
+}
+}
+}
+
+
+difference(){
+for (p=[-28: 28:28]){
+    for (r=[-7.5:5:7.5]){
+    translate ([77.5*skalering,p*skalering, 0])
+        translate ([0,r*skalering, 0])
+    cylinder(hoyde, puslekurve*skalering,puslekurve*skalering,center=true);
+        //translate ([81.4*skalering,p*skalering, 0])cube([13*skalering,15.5*skalering,hoyde], center=true);
+    }
+}
+
+for (o=[-28: 28: 28]){
+     for (q=[-7.5:15:7.5]){
+    translate ([82.5,o, 0])
+   translate ([0,q, 0])
+    cylinder(hoyde, puslekurvemindre,puslekurvemindre,center=true);
+    }  
+}
+}
+
+}}
+
+}//intersection slutter
